@@ -15,6 +15,7 @@ namespace SmartHome_Server
 
             //bind actions
             home.DefaultCotrolsAction = new SmartHome.TypeControlsAction(actions.OnlySendControl);
+            home.ControlsActions.Add("AL", new SmartHome.TypeControlsAction(actions.SendAlarm));
 
             HttpServer server = new HttpServer(home);
             server.Start();

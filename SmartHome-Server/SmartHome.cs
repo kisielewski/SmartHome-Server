@@ -26,8 +26,7 @@ namespace SmartHome_Server
                 { "L4", 0 },
                 { "L5", 0 },
                 { "L6", 0 },
-                { "R1", 0 },
-                { "R2", 0 },
+                { "R", 0 },
                 { "S1", 0 },
                 { "S2", 0 },
                 { "S3", 0 },
@@ -36,16 +35,18 @@ namespace SmartHome_Server
                 { "CS", 0 },
                 { "CG", 0 },
                 { "CT", 0 },
-                { "AL", 0 }
+                { "AL", 0 },
+                { "AB", 0 }
             };
             Sensors = new Dictionary<string, string>
             {
                 { "PT", "X" },
-                { "PK", "X" },
-                { "PM", "X" },
                 { "PW", "X" },
                 { "PC", "X" },
-                { "PO", "X" }
+                { "PR", "X" },
+                { "PO", "X" },
+                { "PTMIN", "X" },
+                { "PTMAX", "X" }
             };
             Messages = new Queue<Message>();
 

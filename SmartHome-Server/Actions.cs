@@ -17,5 +17,12 @@ namespace SmartHome_Server
             serial.Write(name + val);
             home.AddMessage("n", name + val);
         }
+
+        public void SendAlarm(string name, int val)
+        {
+            serial.Write("AL" + val);
+            serial.Write("AB" + val);
+            home.AddMessage("n", "AL" + val);
+        }
     }
 }
