@@ -54,16 +54,10 @@ namespace SmartHome_Server
                     continue;
                 }
                 string name = data.Substring(0, 2);
-                int val = 0;
-                try
+                if(int.TryParse(data.Substring(2, data.Length-2), out int val))
                 {
-                    val = int.Parse(data.Substring(2, data.Length - 2));
+                    home.SetSensor(name, val);
                 }
-                catch (Exception)
-                {
-                    continue;
-                }
-                home.SetSensor(name, val);
             }
         }
     }

@@ -16,6 +16,8 @@ namespace SmartHome_Server
             //bind actions
             home.DefaultCotrolsAction = new SmartHome.TypeControlsAction(actions.OnlySendControl);
             home.ControlsActions.Add("AL", new SmartHome.TypeControlsAction(actions.SendAlarm));
+            home.ControlsActions.Add("APR", null);
+            home.ControlsActions.Add("APO", null);
             home.SensorsActions.Add("PT", new SmartHome.TypeSensorsAction(actions.SetTemperature));
             home.SensorsActions.Add("PR", new SmartHome.TypeSensorsAction(actions.DetectAlarm));
             home.SensorsActions.Add("PO", new SmartHome.TypeSensorsAction(actions.DetectDoor));

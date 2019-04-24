@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
 using Newtonsoft.Json;
 
 namespace SmartHome_Server
@@ -19,9 +20,11 @@ namespace SmartHome_Server
 
         public void SetControls(NameValueCollection collection)
         {
-            foreach(string name in collection)
+            foreach (string name in collection)
             {
-                home.SetControl(name, int.Parse(collection[name]));
+                if (int.TryParse(collection[name], out int val)){
+                    home.SetControl(name, val);
+                }
             }
         }
 
@@ -33,6 +36,17 @@ namespace SmartHome_Server
         public string GetSensors()
         {
             return JsonConvert.SerializeObject(home.Sensors);
+        }
+
+        public string GetAllContent()
+        {
+            return JsonConvert.SerializeObject(home);
+        }
+
+        public string GetAllContent(DateTime date)
+        {
+            while (home.LastChange.Equals(date)) ;
+            return GetAllContent();
         }
     }
 }

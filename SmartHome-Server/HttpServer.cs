@@ -48,22 +48,36 @@ namespace SmartHome_Server
             HttpListenerRequest request = context.Request;
             HttpListenerResponse response = context.Response;
             Response controller = new Response(home);
+            NameValueCollection collection;
+            string query = request.Url.Query;
             string responseString = "";
             
             switch (request.Url.AbsolutePath)
             {
-                case "/controls/get":
-                    responseString = controller.GetControls();
+                case "/api/content/get":
+                    collection = HttpUtility.ParseQueryString(query);
+                    if(collection["lastchange"] != null)
+                    {
+                        string dateString = collection["lastchange"].Replace(' ', '+').Replace("\"", "");
+                        if (DateTime.TryParse(dateString, out DateTime date))
+                        {
+                            responseString = controller.GetAllContent(date);
+                            break;
+                        }
+                    }
+                    responseString = controller.GetAllContent();
                     break;
-                case "/controls/set":
-                    string query = request.Url.Query;
-                    NameValueCollection collection = HttpUtility.ParseQueryString(query);
+                case "/api/controls/set":
+                    collection = HttpUtility.ParseQueryString(query);
                     controller.SetControls(collection);
                     break;
-                case "/messages/get":
+                case "/api/controls/get":
+                    responseString = controller.GetControls();
+                    break;
+                case "/api/messages/get":
                     responseString = controller.GetMessages();
                     break;
-                case "/sensors/get":
+                case "/api/sensors/get":
                     responseString = controller.GetSensors();
                     break;
                 default:
