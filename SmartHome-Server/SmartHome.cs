@@ -6,13 +6,13 @@ namespace SmartHome_Server
     public class SmartHome
     {
         public Dictionary<string, int> Controls { get; private set; }
-        public Dictionary<string, string> Sensors { get; private set; }
+        public Dictionary<string, int> Sensors { get; private set; }
         public Queue<Message> Messages { get; private set; }
         
         public delegate void TypeControlsAction(string name, int val);
         public TypeControlsAction DefaultCotrolsAction;
         public Dictionary<string, TypeControlsAction> ControlsActions;
-        public delegate void TypeSensorsAction(string name, string val);
+        public delegate void TypeSensorsAction(string name, int val);
         public TypeSensorsAction DefaultSensorAction;
         public Dictionary<string, TypeSensorsAction> SensorsActions;
 
@@ -26,8 +26,7 @@ namespace SmartHome_Server
                 { "L4", 0 },
                 { "L5", 0 },
                 { "L6", 0 },
-                { "R1", 0 },
-                { "R2", 0 },
+                { "R", 0 },
                 { "S1", 0 },
                 { "S2", 0 },
                 { "S3", 0 },
@@ -36,16 +35,18 @@ namespace SmartHome_Server
                 { "CS", 0 },
                 { "CG", 0 },
                 { "CT", 0 },
-                { "AL", 0 }
+                { "AL", 0 },
+                { "AB", 0 }
             };
-            Sensors = new Dictionary<string, string>
+            Sensors = new Dictionary<string, int>
             {
-                { "PT", "X" },
-                { "PK", "X" },
-                { "PM", "X" },
-                { "PW", "X" },
-                { "PC", "X" },
-                { "PO", "X" }
+                { "PT", -1 },
+                { "PW", -1 },
+                { "PC", -1 },
+                { "PR", -1 },
+                { "PO", -1 },
+                { "PTMIN", 999 },
+                { "PTMAX", -999 }
             };
             Messages = new Queue<Message>();
 
@@ -75,7 +76,7 @@ namespace SmartHome_Server
             }
         }
 
-        public void SetSensor(string name, string val)
+        public void SetSensor(string name, int val)
         {
             if (!Sensors.ContainsKey(name))
             {
