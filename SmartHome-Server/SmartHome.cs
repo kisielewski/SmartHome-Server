@@ -45,8 +45,8 @@ namespace SmartHome_Server
                 { "PC", -1 },
                 { "PR", -1 },
                 { "PO", -1 },
-                { "PTMIN", -1 },
-                { "PTMAX", -1 }
+                { "PTMIN", 999 },
+                { "PTMAX", -999 }
             };
             Messages = new Queue<Message>();
 

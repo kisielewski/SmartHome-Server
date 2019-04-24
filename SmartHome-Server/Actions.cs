@@ -24,5 +24,17 @@ namespace SmartHome_Server
             serial.Write("AB" + val);
             home.AddMessage("n", "AL" + val);
         }
+
+        public void SetTemperature(string name, int val)
+        {
+            if(home.Sensors["PTMIN"] > val)
+            {
+                home.SetSensor("PTMIN", val);
+            }
+            if(home.Sensors["PTMAX"] < val)
+            {
+                home.SetSensor("PTMAX", val);
+            }
+        }
     }
 }
