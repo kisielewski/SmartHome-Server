@@ -51,6 +51,12 @@ namespace SmartHome_Server
             NameValueCollection collection;
             string query = request.Url.Query;
             string responseString = "";
+            byte[] responseBytes = null;
+            string path = "files"+request.Url.AbsolutePath;
+            if(request.Url.AbsolutePath == "/")
+            {
+                path += "index.html";
+            }
             
             switch (request.Url.AbsolutePath)
             {
@@ -81,15 +87,32 @@ namespace SmartHome_Server
                     responseString = controller.GetSensors();
                     break;
                 default:
-                    response.StatusCode = 404;
+                    if (File.Exists(path))
+                    {
+                        responseBytes = File.ReadAllBytes(path);
+                        response.ContentType = MimeMapping.GetMimeMapping(path);
+                    }
+                    else
+                    {
+                        response.StatusCode = 404;
+                    }
                     break;
             }
-
-            byte[] buffer = Encoding.UTF8.GetBytes(responseString);
-            response.ContentLength64 = buffer.Length;
-            response.AddHeader("Access-Control-Allow-Origin", "*");
+            byte[] buffer = null;
             Stream output = response.OutputStream;
-            output.Write(buffer, 0, buffer.Length);
+            if (responseBytes != null && responseBytes.Length > 0)
+            {
+                response.ContentLength64 = responseBytes.Length;
+                output.Write(responseBytes, 0, responseBytes.Length);
+            }
+            else
+            {
+                buffer = Encoding.UTF8.GetBytes(responseString);
+                response.ContentLength64 = buffer.Length;
+                response.AddHeader("Access-Control-Allow-Origin", "*");
+                output.Write(buffer, 0, buffer.Length);
+            }
+           
             output.Close();
         }
     }

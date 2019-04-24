@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Specialized;
 using Newtonsoft.Json;
 
@@ -45,7 +46,10 @@ namespace SmartHome_Server
 
         public string GetAllContent(DateTime date)
         {
-            while (home.LastChange.Equals(date)) ;
+            while (home.LastChange.Equals(date))
+            {
+                Thread.Sleep(100);
+            }
             return GetAllContent();
         }
     }
