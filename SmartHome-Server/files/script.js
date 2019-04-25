@@ -127,7 +127,7 @@ var App = function(){
 
 	function getContent(){
 		var xmlhttp = new XMLHttpRequest();
-		var url = "http://localhost/api/content/get?lastchange=\""+lastchange+"\"";
+		var url = "/api/content/get?lastchange=\""+lastchange+"\"";
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 				var data = JSON.parse(xmlhttp.responseText);
@@ -142,7 +142,7 @@ var App = function(){
 	
 	function setControl(code){
 		var xmlhttp = new XMLHttpRequest();
-		var url = "http://localhost/api/controls/set?"+code+"=";
+		var url = "/api/controls/set?"+code+"=";
 		if(ui.controls.controls[code].value == 0){
 			url += "1";
 		} else {
