@@ -67,6 +67,10 @@ namespace SmartHome_Server
             {
                 return;
             }
+            if(Controls[name] == val)
+            {
+                return;
+            }
             Controls[name] = val;
             LastChange = DateTime.Now;
             if (ControlsActions.ContainsKey(name))
@@ -82,6 +86,10 @@ namespace SmartHome_Server
         public void SetSensor(string name, int val)
         {
             if (!Sensors.ContainsKey(name))
+            {
+                return;
+            }
+            if(Sensors[name] == val)
             {
                 return;
             }
