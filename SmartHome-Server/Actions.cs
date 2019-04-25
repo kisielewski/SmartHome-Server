@@ -12,9 +12,14 @@ namespace SmartHome_Server
             this.home = home;
         }
 
-        public void OnlySendControl(string name, int val)
+        public void SendControl(string name, int val)
         {
             serial.Write(name + val);
+            home.AddMessage("n", name + val);
+        }
+
+        public void OnlyAddMessage(string name, int val)
+        {
             home.AddMessage("n", name + val);
         }
 
