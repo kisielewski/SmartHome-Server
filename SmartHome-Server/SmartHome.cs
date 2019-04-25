@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -21,6 +22,9 @@ namespace SmartHome_Server
         public TypeSensorsAction DefaultSensorAction;
         [JsonIgnore]
         public Dictionary<string, TypeSensorsAction> SensorsActions;
+
+        [JsonIgnore]
+        public Semaphore Semaphore { get; set; }
 
         public SmartHome()
         {
@@ -55,6 +59,7 @@ namespace SmartHome_Server
             ControlsActions = new Dictionary<string, TypeControlsAction>();
             SensorsActions = new Dictionary<string, TypeSensorsAction>();
             LastChange = DateTime.Now;
+            Semaphore = new Semaphore(1, 1);
         }
 
         public void SetControl(string name, int val)

@@ -50,13 +50,17 @@ namespace SmartHome_Server
                 }
                 if (data.Equals("D"))
                 {
+                    home.Semaphore.WaitOne();
                     home.AddMessage("p", "D");
+                    home.Semaphore.Release();
                     continue;
                 }
                 string name = data.Substring(0, 2);
                 if(int.TryParse(data.Substring(2, data.Length-2), out int val))
                 {
+                    home.Semaphore.WaitOne();
                     home.SetSensor(name, val);
+                    home.Semaphore.Release();
                 }
             }
         }

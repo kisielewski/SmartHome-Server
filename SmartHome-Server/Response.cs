@@ -16,7 +16,10 @@ namespace SmartHome_Server
 
         public string GetControls()
         {
-            return JsonConvert.SerializeObject(home.Controls);
+            home.Semaphore.WaitOne();
+            string result = JsonConvert.SerializeObject(home.Controls);
+            home.Semaphore.Release();
+            return result;
         }
 
         public void SetControls(NameValueCollection collection)
@@ -24,24 +27,35 @@ namespace SmartHome_Server
             foreach (string name in collection)
             {
                 if (int.TryParse(collection[name], out int val)){
+                    home.Semaphore.WaitOne();
                     home.SetControl(name, val);
+                    home.Semaphore.Release();
                 }
             }
         }
 
         public string GetMessages()
         {
-            return JsonConvert.SerializeObject(home.Messages);
+            home.Semaphore.WaitOne();
+            string result = JsonConvert.SerializeObject(home.Messages);
+            home.Semaphore.Release();
+            return result;
         }
 
         public string GetSensors()
         {
-            return JsonConvert.SerializeObject(home.Sensors);
+            home.Semaphore.WaitOne();
+            string result = JsonConvert.SerializeObject(home.Sensors);
+            home.Semaphore.Release();
+            return result;
         }
 
         public string GetAllContent()
         {
-            return JsonConvert.SerializeObject(home);
+            home.Semaphore.WaitOne();
+            string result = JsonConvert.SerializeObject(home);
+            home.Semaphore.Release();
+            return result;
         }
 
         public string GetAllContent(DateTime date)
