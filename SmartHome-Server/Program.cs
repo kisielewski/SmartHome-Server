@@ -22,7 +22,7 @@ namespace SmartHome_Server
             home.SensorsActions.Add("PR", new SmartHome.TypeSensorsAction(actions.DetectAlarm));
             home.SensorsActions.Add("PO", new SmartHome.TypeSensorsAction(actions.DetectDoor));
 
-            HttpServer server = new HttpServer(home);
+            HttpServer server = new HttpServer(args[1], home);
             server.Start();
 
             home.AddMessage("p", "http");

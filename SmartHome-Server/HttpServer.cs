@@ -11,10 +11,12 @@ namespace SmartHome_Server
     public class HttpServer
     {
         private SmartHome home;
+        private string prefix;
         private Thread HttpThread;
 
-        public HttpServer(SmartHome home)
+        public HttpServer(string prefix, SmartHome home)
         {
+            this.prefix = prefix;
             this.home = home;
         }
 
@@ -32,7 +34,7 @@ namespace SmartHome_Server
         private void Loop()
         {
             HttpListener listener = new HttpListener();
-            listener.Prefixes.Add("http://+:80/");
+            listener.Prefixes.Add(prefix);
             listener.Start();
             while (true)
             {
