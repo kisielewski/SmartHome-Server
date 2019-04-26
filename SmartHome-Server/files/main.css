@@ -44,7 +44,7 @@ button {
 }
 .box_label {
 	width: 80%;
-	margin: 0 auto 20px;
+	margin: 0 auto 30px;
 	padding-top: 20px;
 	color: white;
 	font-size: 21px;/*+5*/
@@ -52,7 +52,7 @@ button {
 }
 .box_label_b {
 	width: 80%;
-	margin: 0 auto 20px;
+	margin: 0 auto 30px;
 	padding-top: 30px;
 	color: black;
 	font-size: 21px;/*+5*/
@@ -85,7 +85,7 @@ button {
 }
 .yell_box {
 	width: calc(100% - 40px);
-	height: 250px;
+	height: 320px;
 	background-color: #FFF700;
 	padding:  0 20px 40px;
 }
@@ -121,7 +121,7 @@ button {
 }
 /*2*/
 .row2 {
-	font-size: 20px;/*+5*/
+	font-size: 24px;/*+5*/
 	color: white;
 	margin-top: 10px;
 }
