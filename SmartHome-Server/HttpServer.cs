@@ -58,6 +58,9 @@ namespace SmartHome_Server
             if(request.Url.AbsolutePath == "/")
             {
                 path += "index.html";
+            } else if(request.Url.AbsolutePath == "/plan")
+            {
+                path += ".html";
             }
             
             switch (request.Url.AbsolutePath)
