@@ -11,10 +11,12 @@ namespace SmartHome_Server
     public class HttpServer
     {
         private SmartHome home;
+        private string prefix;
         private Thread HttpThread;
 
-        public HttpServer(SmartHome home)
+        public HttpServer(string prefix, SmartHome home)
         {
+            this.prefix = prefix;
             this.home = home;
         }
 
@@ -32,7 +34,7 @@ namespace SmartHome_Server
         private void Loop()
         {
             HttpListener listener = new HttpListener();
-            listener.Prefixes.Add("http://+:80/");
+            listener.Prefixes.Add(prefix);
             listener.Start();
             while (true)
             {
@@ -48,34 +50,71 @@ namespace SmartHome_Server
             HttpListenerRequest request = context.Request;
             HttpListenerResponse response = context.Response;
             Response controller = new Response(home);
+            NameValueCollection collection;
+            string query = request.Url.Query;
             string responseString = "";
+            byte[] responseBytes = null;
+            string path = "files"+request.Url.AbsolutePath;
+            if(request.Url.AbsolutePath == "/")
+            {
+                path += "index.html";
+            }
             
             switch (request.Url.AbsolutePath)
             {
-                case "/controls/get":
-                    responseString = controller.GetControls();
+                case "/api/content/get":
+                    collection = HttpUtility.ParseQueryString(query);
+                    if(collection["lastchange"] != null)
+                    {
+                        string dateString = collection["lastchange"].Replace(' ', '+').Replace("\"", "");
+                        if (DateTime.TryParse(dateString, out DateTime date))
+                        {
+                            responseString = controller.GetAllContent(date);
+                            break;
+                        }
+                    }
+                    responseString = controller.GetAllContent();
                     break;
-                case "/controls/set":
-                    string query = request.Url.Query;
-                    NameValueCollection collection = HttpUtility.ParseQueryString(query);
+                case "/api/controls/set":
+                    collection = HttpUtility.ParseQueryString(query);
                     controller.SetControls(collection);
                     break;
-                case "/messages/get":
+                case "/api/controls/get":
+                    responseString = controller.GetControls();
+                    break;
+                case "/api/messages/get":
                     responseString = controller.GetMessages();
                     break;
-                case "/sensors/get":
+                case "/api/sensors/get":
                     responseString = controller.GetSensors();
                     break;
                 default:
-                    response.StatusCode = 404;
+                    if (File.Exists(path))
+                    {
+                        responseBytes = File.ReadAllBytes(path);
+                        response.ContentType = MimeMapping.GetMimeMapping(path);
+                    }
+                    else
+                    {
+                        response.StatusCode = 404;
+                    }
                     break;
             }
-
-            byte[] buffer = Encoding.UTF8.GetBytes(responseString);
-            response.ContentLength64 = buffer.Length;
-            response.AddHeader("Access-Control-Allow-Origin", "*");
+            byte[] buffer = null;
             Stream output = response.OutputStream;
-            output.Write(buffer, 0, buffer.Length);
+            if (responseBytes != null && responseBytes.Length > 0)
+            {
+                response.ContentLength64 = responseBytes.Length;
+                output.Write(responseBytes, 0, responseBytes.Length);
+            }
+            else
+            {
+                buffer = Encoding.UTF8.GetBytes(responseString);
+                response.ContentLength64 = buffer.Length;
+                response.AddHeader("Access-Control-Allow-Origin", "*");
+                output.Write(buffer, 0, buffer.Length);
+            }
+           
             output.Close();
         }
     }

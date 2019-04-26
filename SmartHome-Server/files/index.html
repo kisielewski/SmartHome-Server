@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+	<meta charset="UTF-8">
+	<title>Smart Home</title>
+	<link href="main.css" rel="stylesheet" type="text/css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="Shortcut icon" href="smart_home.ico">
+	<script src="script.js"></script>
+</head>
+<body>
+	<div class="head"><a href="/"><div class="logo"></div><div class="head_logo">Smart Home</div></a><a href="https://www.patryk-kisielewski.it-k.pl"><div class="patryk">Patryk Kisielewski</div></a></div>
+	<div class="box">
+		<div class="blue_box">
+			<div class="box_label">Urządzenia</div>
+			<div class="tb">
+				<div class="row"><div class="row_label">Światło w salonie</div><div class="row_status" id="L1_status"></div><button class="row_button" id="L1_button"></button></div>
+				<div class="row"><div class="row_label">Światło w kuchni</div><div class="row_status" id="L2_status"></div><button class="row_button" id="L2_button"></button></div>
+				<div class="row"><div class="row_label">Światło w sypialni</div><div class="row_status" id="L3_status"></div><button class="row_button" id="L3_button"></button></div>
+				<div class="row"><div class="row_label">Światło na korytarzu</div><div class="row_status" id="L4_status"></div><button class="row_button" id="L4_button"></button></div>
+				<div class="row"><div class="row_label">Światło w łazience</div><div class="row_status" id="L5_status"></div><button class="row_button" id="L5_button"></button></div>
+				<div class="row"><div class="row_label">Światło w ogrodzie</div><div class="row_status" id="L6_status"></div><button class="row_button" id="L6_button"></button></div>
+				
+				<div class="row"><div class="row_label">Telewizor</div><div class="row_status" id="R_status"></div><button class="row_button" id="R_button"></button></div>
+				<div class="row"><div class="row_label">Okna</div><div class="row_status" id="S1_status"></div><button class="row_button" id="S1_button"></button></div>
+				<div class="row"><div class="row_label">Drzwi wejściowe</div><div class="row_status" id="S2_status"></div><button class="row_button" id="S2_button"></button></div>
+				<div class="row"><div class="row_label">Brama wjazdowa</div><div class="row_status" id="S3_status"></div><button class="row_button" id="S3_button"></button></div>
+			</div>
+		</div>
+		<div class="fiol_box"  style=";">
+			<div class="box_label">Akcje automatyczne</div>
+			<div class="tb">
+				<div class="row2"><div class="row_label2">Reaguj na czujnik ruchu</div><div class="row_status2" id="APR_status"></div><button class="row_button2" id="APR_button"></button></div>
+				<div class="row2"><div class="row_label2">Reaguj na czujnik odległości</div><div class="row_status2" id="APO_status"></div><button class="row_button2" id="APO_button"></button></div>
+			</div>
+		</div>
+	</div>
+	<div class="box">
+		<div class="yell_box">
+			<div class="box_label_b">Komunikaty</div>
+			<div class="tb com_o" id="com">
+				
+			</div>
+		</div>
+		<div class="green_box" style="">
+			<div class="box_label">Pomiary</div>
+			<div class="tb pom">
+				<div class="pom_row"><div class="pom_label">Temperatura</div><div class="pom_status" id="PT">X</div></div>
+				<div class="pom_row"><div class="pom_label">Temperatura minimalna</div><div class="pom_status" id="PTMIN">X</div></div>
+				<div class="pom_row"><div class="pom_label">Temperatura maksymalna</div><div class="pom_status" id="PTMAX">X</div></div>
+				<div class="pom_row"><div class="pom_label">Wilgotność</div><div class="pom_status" id="PW">X</div></div>
+				<div class="pom_row"><div class="pom_label">Poziom wody w basenie</div><div class="pom_status" id="PC">X</div></div>
+				<div class="pom_row"><div class="pom_label">Odczyt odległości</div><div class="pom_status" id="PO">X</div></div>
+				<div class="pom_row"><div class="pom_label">Czujnik ruchu</div><div class="pom_status" id="PR">X</div></div>
+			</div>
+		</div>
+		<div class="red_box">
+			<div class="box_label">Alarm</div>
+			<div class="tb pom">
+				<div class="pom_row"><div class="pom_label" id="AL_status">Alarm</div><button class="row_button" id="AL_button"></button></div>
+			</div>
+		</div>
+	</div>
+	<div class="animate"><marquee scrolldelay="300">
+		<img src="smart_home_small.png" class="separator">Projekt inteligentnego domu sterowanego przez komputer lub urządzenia mobilne
+		<img src="smart_home_small.png" class="separator">Patryk Kisielewski
+		<img src="smart_home_small.png" class="separator">Uniwersytet Mikołaja Kopernika w Toruniu
+		<img src="smart_home_small.png" class="separator">Wydział Matematyki i Informatyki
+		<img src="smart_home_small.png" class="separator">19. Toruński Festiwal Nauki i Sztuki
+		<img src="smart_home_small.png" class="separator">Piątek, 26 kwietnia 2019
+		<img src="smart_home_small.png" class="separator">
+	</marquee></div>
+</body>
+</html>

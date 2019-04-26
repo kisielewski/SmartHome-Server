@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace SmartHome_Server
 {
@@ -8,13 +10,21 @@ namespace SmartHome_Server
         public Dictionary<string, int> Controls { get; private set; }
         public Dictionary<string, int> Sensors { get; private set; }
         public Queue<Message> Messages { get; private set; }
+        public DateTime LastChange { get; private set; }
         
         public delegate void TypeControlsAction(string name, int val);
+        [JsonIgnore]
         public TypeControlsAction DefaultCotrolsAction;
+        [JsonIgnore]
         public Dictionary<string, TypeControlsAction> ControlsActions;
         public delegate void TypeSensorsAction(string name, int val);
+        [JsonIgnore]
         public TypeSensorsAction DefaultSensorAction;
+        [JsonIgnore]
         public Dictionary<string, TypeSensorsAction> SensorsActions;
+
+        [JsonIgnore]
+        public Semaphore Semaphore { get; set; }
 
         public SmartHome()
         {
@@ -30,13 +40,10 @@ namespace SmartHome_Server
                 { "S1", 0 },
                 { "S2", 0 },
                 { "S3", 0 },
-                { "CR", 0 },
-                { "CO", 0 },
-                { "CS", 0 },
-                { "CG", 0 },
-                { "CT", 0 },
                 { "AL", 0 },
-                { "AB", 0 }
+                { "AB", 0 },
+                { "APR", 1 },
+                { "APO", 1 }
             };
             Sensors = new Dictionary<string, int>
             {
@@ -49,9 +56,10 @@ namespace SmartHome_Server
                 { "PTMAX", -999 }
             };
             Messages = new Queue<Message>();
-
             ControlsActions = new Dictionary<string, TypeControlsAction>();
             SensorsActions = new Dictionary<string, TypeSensorsAction>();
+            LastChange = DateTime.Now;
+            Semaphore = new Semaphore(1, 1);
         }
 
         public void SetControl(string name, int val)
@@ -64,11 +72,15 @@ namespace SmartHome_Server
             {
                 return;
             }
+            if(Controls[name] == val)
+            {
+                return;
+            }
             Controls[name] = val;
-
+            LastChange = DateTime.Now;
             if (ControlsActions.ContainsKey(name))
             {
-                ControlsActions[name](name, val);
+                ControlsActions[name]?.Invoke(name, val);
             }
             else
             {
@@ -82,11 +94,15 @@ namespace SmartHome_Server
             {
                 return;
             }
+            if(Sensors[name] == val)
+            {
+                return;
+            }
             Sensors[name] = val;
-
+            LastChange = DateTime.Now;
             if (SensorsActions.ContainsKey(name))
             {
-                SensorsActions[name](name, val);
+                SensorsActions[name]?.Invoke(name, val);
             }
             else
             {
@@ -107,6 +123,7 @@ namespace SmartHome_Server
                 Messages.Dequeue();
             }
             Messages.Enqueue(message);
+            LastChange = DateTime.Now;
         }
     }
 

@@ -12,9 +12,14 @@ namespace SmartHome_Server
             this.home = home;
         }
 
-        public void OnlySendControl(string name, int val)
+        public void SendControl(string name, int val)
         {
             serial.Write(name + val);
+            home.AddMessage("n", name + val);
+        }
+
+        public void OnlyAddMessage(string name, int val)
+        {
             home.AddMessage("n", name + val);
         }
 
@@ -50,7 +55,7 @@ namespace SmartHome_Server
                     home.AddMessage("p", "AB1");
                 }
             }
-            else if(home.Controls["AB"] == 1 && val == 0)
+            else if(val == 0)
             {
                 home.SetControl("AB", 0);
             }
@@ -59,11 +64,15 @@ namespace SmartHome_Server
 
         public void DetectDoor(string name, int val)
         {
-            if(val < 20 && home.Controls["S2"] == 0)
+            if(home.Controls["APO"] == 0)
+            {
+                return;
+            }
+            if(val < 20)
             {
                 home.SetControl("S2", 1);
             }
-            else if(val > 25 && home.Controls["S2"] == 1)
+            else if(val > 25)
             {
                 home.SetControl("S2", 0);
             }
@@ -71,10 +80,11 @@ namespace SmartHome_Server
 
         public void DetectLight(string name, int val)
         {
-            if(home.Controls["L3"] != val)
+            if(home.Controls["APR"] == 0)
             {
-                home.SetControl("L3", val);
+                return;
             }
+            home.SetControl("L3", val);
         }
     }
 }
