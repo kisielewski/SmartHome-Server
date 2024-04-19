@@ -95,7 +95,7 @@ namespace SmartHome_Server
                     if (File.Exists(path))
                     {
                         responseBytes = File.ReadAllBytes(path);
-                        response.ContentType = MimeMapping.GetMimeMapping(path);
+                        //response.ContentType = MimeMapping.GetMimeMapping(path);
                     }
                     else
                     {
