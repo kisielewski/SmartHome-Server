@@ -58,8 +58,13 @@ namespace SmartHome_Server
             string path = "files"+request.Url.AbsolutePath;
             if(request.Url.AbsolutePath == "/")
             {
-                path += "index.html";
-            } else if(request.Url.AbsolutePath == "/plan")
+                path += "plan.html";
+            }
+            else if (request.Url.AbsolutePath == "/dashboard")
+            {
+                path = "files/index.html";
+            }
+            else if(request.Url.AbsolutePath == "/plan")
             {
                 path += ".html";
             }
