@@ -5,6 +5,7 @@ using System.Threading;
 using System.Net;
 using System.IO;
 using System.Web;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace SmartHome_Server
 {
@@ -57,8 +58,13 @@ namespace SmartHome_Server
             string path = "files"+request.Url.AbsolutePath;
             if(request.Url.AbsolutePath == "/")
             {
-                path += "index.html";
-            } else if(request.Url.AbsolutePath == "/plan")
+                path += "plan.html";
+            }
+            else if (request.Url.AbsolutePath == "/dashboard")
+            {
+                path = "files/index.html";
+            }
+            else if(request.Url.AbsolutePath == "/plan")
             {
                 path += ".html";
             }
@@ -95,7 +101,8 @@ namespace SmartHome_Server
                     if (File.Exists(path))
                     {
                         responseBytes = File.ReadAllBytes(path);
-                        response.ContentType = MimeMapping.GetMimeMapping(path);
+                        new FileExtensionContentTypeProvider().TryGetContentType(path, out string contentType);
+                        response.ContentType = contentType;
                     }
                     else
                     {
